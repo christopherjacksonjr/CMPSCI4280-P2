@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS = -g
 TARGET = frontEnd
-HEADER = parser.h testTree.h
-OBJS = main.c parser.c testTree.c
+HEADER = parser.h testTree.h scanner.h token.h
+OBJS = main.c parser.c scanner.cpp testTree.c
 .SUFFIXIES: .c .o
 
 $(TARGET): $(OBJS)
