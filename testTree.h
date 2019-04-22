@@ -7,7 +7,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-struct node_t* insert(struct node_t* node, string data)
-void printInorder(struct node_t* root)
+//struct node_t* insert(struct node_t* node, string data)
+//void printInorder(struct node_t* root)
 
 #endif

@@ -7,6 +7,8 @@
 #include"scanner.h"
 #include"parser.h"
 
+string determineTokenID(enum tokenID);
+
 int main(int argc, char* argv[])
 {
 	//Setting variables.
@@ -36,6 +38,15 @@ int main(int argc, char* argv[])
 		
 		//Calling scanner function then parse function.
 		tokens = scanner(buffer);
+
+		int x;
+                        for (int x = 0; x != tokens.size(); ++x)
+                        {
+                                cout << "{" << determineTokenID(tokens[x].id) << ",";
+                                cout << " " << tokens[x].instance << ",";
+                                cout << " " << tokens[x].lineNumber << "}" << endl;
+                        }
+
 		node = parser(tokens);
 
 		fclose(fp);
@@ -64,6 +75,16 @@ int main(int argc, char* argv[])
 
 			//Calling scanner function then parse function.
 			tokens = scanner(buffer);
+
+			int x;
+			for (int x = 0; x != tokens.size(); ++x)
+        		{
+				cout << "{" << determineTokenID(tokens[x].id) << ",";
+                		cout << " " << tokens[x].instance << ",";
+                		cout << " " << tokens[x].lineNumber << "}" << endl;
+        		}
+				
+
 			node = parser(tokens);
 
 			fclose(fp);
@@ -73,3 +94,114 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
+string determineTokenID(tokenID enumID)
+{
+	switch(enumID)
+	{
+		case 0:
+			return "IDENT_tk";
+			break;
+		case 1:
+			return "NUM_tk";
+			break;
+		case 2:
+                        return "KW_tk";
+                        break;
+		case 3:
+                        return "CMNT_tk";
+                        break;
+		case 4:
+                        return "EOF_tk";
+                        break;
+		case 5:
+                        return "BEGIN_tk";
+                        break;
+		case 6:
+                        return "END_tk";
+                        break;
+		case 7:
+                        return "LOOP_tk";
+                        break;
+		case 8:
+                        return "VOID_tk";
+                        break;
+		case 9:
+                        return "INT_tk";
+                        break;
+		case 10:
+                        return "RETURN_tk";
+                        break;
+		case 11:
+                        return "READ_tk";
+                        break;
+		case 12:
+                        return "OUTPUT_tk";
+                        break;
+		case 13:
+                        return "PROGRAM_tk";
+                        break;
+		case 14:
+                        return "IFF_tk";
+                        break;
+		case 15:
+                        return "THEN_tk";
+                        break;
+		case 16:
+                        return "LET_tk";
+                        break;
+		case 17:
+                        return "EQUAL_tk";
+                        break;
+		case 18:
+                        return "LESS_tk";
+                        break;
+		case 19:
+                        return "GREATER_tk";
+                        break;
+		case 20:
+                        return "COLON_tk";
+                        break;
+		case 21:
+                        return "ADDITION_tk";
+                        break;
+		case 22:
+                        return "SUBTRACTION_tk";
+                        break;
+		case 23:
+                        return "MULTIPLY_tk";
+                        break;
+		case 24:
+                        return "DIVIDE_tk";
+                        break;
+		case 25:
+                        return "PERCENT_tk";
+                        break;
+		case 26:
+                        return "PERIOD_tk";
+                        break;
+		case 27:
+                        return "OPEN_PAREN_tk";
+                        break;
+		case 28:
+                        return "CLOSE_PAREN_tk";
+                        break;
+		case 29:
+                        return "COMMA_PAREN_tk";
+                        break;
+		case 30:
+                        return "OPEN_CURLY_tk";
+                        break;
+		case 31:
+                        return "CLOSE_CURLY_tk";
+                        break;
+		case 32:
+                        return "SEMI_COLON_tk";
+                        break;
+		case 33:
+                        return "OPEN_BRACKET_tk";
+                        break;
+		case 34:
+                        return "CLOSE_BRACKET_tk";
+                        break;
+	}
+}

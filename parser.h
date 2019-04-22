@@ -35,5 +35,6 @@ node_t* loop(vector<Token>);
 node_t* assign(vector<Token>);
 node_t* RO(vector<Token>);
 node_t* getNode(string);
+void error(string);
 
 #endif

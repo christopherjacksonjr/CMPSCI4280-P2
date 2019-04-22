@@ -4,7 +4,7 @@
  **Parameters: A node_t struct and string.
  **Return: A node_t struct.
  *****************************************************/
-struct node_t* insert(struct node_t* node, string data)
+/*struct node_t* insert(struct node_t* node, string data)
 {
 	//Checks if node is empty.
 	if(node == NULL) 
@@ -23,13 +23,13 @@ struct node_t* insert(struct node_t* node, string data)
 	}
 
 	return node;
-}
+}*/
 
 /*Description: This function takes root and prints preorder tree.
  **Parameters: root node.
  **Return: void.
  *************************************************/
-void printPreorder(struct node_t* root)
+/*void printPreorder(struct node_t* root)
 {
 	if(root != NULL)
 	{
@@ -37,5 +37,5 @@ void printPreorder(struct node_t* root)
 		printPreorder(root->left);
 		printPreorder(root->right);
 	}
-}
+}*/
 
