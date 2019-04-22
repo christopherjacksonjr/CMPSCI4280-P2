@@ -9,10 +9,6 @@
 #include<string.h>
 #include"token.h"
 
-//using namespace std;
-
-
-
 //Function declarations
 vector<Token> scanner(string buffer);
 void id_tk(string &buffer, int &i);
@@ -22,6 +18,5 @@ void comment_tk(string &buffer, int &i);
 bool isKeyword(string str);
 bool isNumber(string str);
 bool isOperator(string str);
-bool isComment(string str);
 
 #endif
