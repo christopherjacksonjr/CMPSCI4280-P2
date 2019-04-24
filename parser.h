@@ -8,33 +8,39 @@
 using namespace std;
 
 //Struct delcaractions.
-struct node_t {
-string label;
-Token token1;
+enum NodeLabel {Program, Block, Vars, Expr, PlusExpr, MinusExpr, ALabel, MultiplicationA, NLabel, DivisionN, MLabel, SubtractionM, RLabel, Stats, MStat, Stat, In, Out, If, Loop, Assign, ROLabel};
+
+struct Node_t {
+NodeLabel label;
+Token token;
 Token token2;
-Token child;
+Node_t* left_child;
+Node_t* right_child;
 };
 
 //Function prototypes.
-node_t* parser(vector<Token>);
-node_t* program(vector<Token>);
-node_t* vars(vector<Token>);
-node_t* block(vector<Token>);
-node_t* expr(vector<Token>);
-node_t* A(vector<Token>);
-node_t* N(vector<Token>);
-node_t* M(vector<Token>);
-node_t* R(vector<Token>);
-node_t* stats(vector<Token>);
-node_t* mStat(vector<Token>);
-node_t* stat(vector<Token>);
-node_t* in(vector<Token>);
-node_t* out(vector<Token>);
-node_t* if_tk(vector<Token>);
-node_t* loop(vector<Token>);
-node_t* assign(vector<Token>);
-node_t* RO(vector<Token>);
-node_t* getNode(string);
+Node_t* parser(vector<Token>);
+Node_t* program(vector<Token>);
+Node_t* vars(vector<Token>);
+Node_t* block(vector<Token>);
+Node_t* expr(vector<Token>);
+Node_t* A(vector<Token>);
+Node_t* N(vector<Token>);
+Node_t* M(vector<Token>);
+Node_t* R(vector<Token>);
+Node_t* stats(vector<Token>);
+Node_t* mStat(vector<Token>);
+Node_t* stat(vector<Token>);
+Node_t* in(vector<Token>);
+Node_t* out(vector<Token>);
+Node_t* if_tk(vector<Token>);
+Node_t* loop(vector<Token>);
+Node_t* assign(vector<Token>);
+Node_t* RO(vector<Token>);
+Node_t* getNode(NodeLabel);
 void error(string);
+struct Node_t* buildTree(FILE *fp);
+struct Node_t* newNode(string label);
+struct Node_t* insert(struct Node_t* node, string label);
 
 #endif

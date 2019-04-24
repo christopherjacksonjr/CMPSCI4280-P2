@@ -6,6 +6,7 @@
 #include"token.h"
 #include"scanner.h"
 #include"parser.h"
+#include"testTree.h"
 
 string determineTokenID(enum tokenID);
 
@@ -15,7 +16,7 @@ int main(int argc, char* argv[])
 	FILE *fp;
 	int c;
 	string buffer;
-	node_t* node;
+	Node_t* root;
 
 	vector<Token> tokens;
 
@@ -40,14 +41,15 @@ int main(int argc, char* argv[])
 		tokens = scanner(buffer);
 
 		int x;
-                        for (int x = 0; x != tokens.size(); ++x)
-                        {
-                                cout << "{" << determineTokenID(tokens[x].id) << ",";
-                                cout << " " << tokens[x].instance << ",";
-                                cout << " " << tokens[x].lineNumber << "}" << endl;
-                        }
+                for (int x = 0; x != tokens.size(); ++x)
+                {
+                 	cout << "{" << determineTokenID(tokens[x].id) << ",";
+                        cout << " " << tokens[x].instance << ",";
+                        cout << " " << tokens[x].lineNumber << "}" << endl;
+                }
 
-		node = parser(tokens);
+		root = parser(tokens);
+		printPreorder(root);	
 
 		fclose(fp);
 	}
@@ -85,7 +87,9 @@ int main(int argc, char* argv[])
         		}
 				
 
-			node = parser(tokens);
+			root = parser(tokens);
+			cout << root->label << endl;
+			printPreorder(root);
 
 			fclose(fp);
 		}
