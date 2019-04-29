@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 		tokens = scanner(buffer);
 
 		int x;
-                for (int x = 0; x != tokens.size(); ++x)
+                for (int x = 0; x < tokens.size(); ++x)
                 {
                  	cout << "{" << determineTokenID(tokens[x].id) << ",";
                         cout << " " << tokens[x].instance << ",";
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
                 }
 
 		root = parser(tokens);
-		printPreorder(root);	
+		printPreorder(root, 0);	
 
 		fclose(fp);
 	}
@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 			tokens = scanner(buffer);
 
 			int x;
-			for (int x = 0; x != tokens.size(); ++x)
+			for (int x = 0; x < tokens.size(); ++x)
         		{
 				cout << "{" << determineTokenID(tokens[x].id) << ",";
                 		cout << " " << tokens[x].instance << ",";
@@ -88,8 +88,7 @@ int main(int argc, char* argv[])
 				
 
 			root = parser(tokens);
-			cout << root->label << endl;
-			printPreorder(root);
+			printPreorder(root, 0);
 
 			fclose(fp);
 		}

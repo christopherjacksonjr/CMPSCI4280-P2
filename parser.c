@@ -22,12 +22,12 @@ Node_t* parser(vector<Token> tokens)
 	root = program(tokens);
 	if(token.id == EOF_tk)
 	{
-		return NULL;
+		return root;
 	}
 	else
 	{
 		error("Error: Expected EOF token.");
-		return root;
+		return NULL;
 	}
 }
 
@@ -37,11 +37,14 @@ Node_t* program(vector<Token> tokens)
 
 	program_node->left_child = vars(tokens);
 	program_node->right_child = block(tokens);
+		
+	return program_node;
 }
 
 Node_t* vars(vector<Token> tokens)
 {
 	Node_t* vars_node = getNode(Vars);
+	//cout << vars_node->label << endl;
 
 	if(token.id == INT_tk)
 	{
@@ -59,7 +62,7 @@ Node_t* vars(vector<Token> tokens)
 				vars_node->token2 = token;
 				i++;
 				token = tokens[i];
-				vars(tokens);
+				vars_node->left_child = vars(tokens);
 				return vars_node;
 			}
 			else
@@ -271,7 +274,7 @@ Node_t* mStat(vector<Token> tokens)
         }
         else //process empty
         {
-		return NULL;		
+		error("Error: Expected COLON token.");		
         }
 }
 
@@ -284,33 +287,27 @@ Node_t* stat(vector<Token> tokens)
 		case READ_tk:
 			i++;
 			token = tokens[i];
-			in(tokens);
-			break;
+			return in(tokens);
 		case OUTPUT_tk:
 			i++;
                         token = tokens[i];
-                        out(tokens);
-                        break;
+                        return out(tokens);
 		case BEGIN_tk:
 			i++;
                         token = tokens[i];
-                        block(tokens);
-                        break;
+                        return block(tokens);
 		case IFF_tk:
 			i++;
                         token = tokens[i];
-                        if_tk(tokens);
-                        break;
+                        return if_tk(tokens);
 		case LOOP_tk:
 			i++;
                         token = tokens[i];
-                        loop(tokens);
-                        break;
+                        return loop(tokens);
 		case IDENT_tk:
 			i++;
                         token = tokens[i];
-                        assign(tokens);
-                        break;
+                        return assign(tokens);
 		default:
 			error("Error: Expected READ, OUTPUT, BLOCK, IFF, LOOP, or IDENTIFIER token.");
 			break;
@@ -508,7 +505,8 @@ Node_t* getNode(NodeLabel label)
 	Node_t* temp = new Node_t;
 
 	temp->label = label;
-	//temp->token = NULL;
+	temp->token.instance = "";
+	temp->token2.instance = "";
 	temp->left_child = NULL;
 	temp->right_child = NULL;
 

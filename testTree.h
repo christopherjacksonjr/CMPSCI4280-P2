@@ -8,6 +8,8 @@
 #ifndef TESTTREE_H
 #define TESTTREE_H
 
-void printPreorder(struct Node_t* root);
+void printPreorder(struct Node_t* root, int level);
+//string determineTokenID(tokenID enumID)
+//string getName(NodeLabel label);
 
 #endif
