@@ -1,3 +1,5 @@
+#ifndef TESTTREE_H
+#define TESTTREE_H
 #include<stdio.h>
 #include<iostream>
 #include<vector>
@@ -5,11 +7,8 @@
 #include"scanner.h"
 #include"token.h"
 #include"parser.h"
-#ifndef TESTTREE_H
-#define TESTTREE_H
 
+//Function prototypes.
 void printPreorder(struct Node_t* root, int level);
-//string determineTokenID(tokenID enumID)
-//string getName(NodeLabel label);
 
 #endif

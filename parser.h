@@ -1,16 +1,16 @@
+#ifndef PARSER_H
+#define PARSER_H
 #include<stdio.h>
 #include<iostream>
 #include<vector>
 #include"token.h"
-#ifndef PARSER_H
-#define PARSER_H
 
 using namespace std;
 
 //Struct delcaractions.
 enum NodeLabel {Program = 0, Block = 1, Vars = 2, Expr = 3, PlusExpr = 4, MinusExpr = 5, ALabel = 6, MultiplicationA = 7, NLabel = 8, DivisionN = 9, MLabel = 10, SubtractionM = 11, RLabel = 12, Stats = 13, MStat = 14, Stat = 15, In = 16, Out = 17, If = 18, Loop = 19, Assign = 20, ROLabel = 21};
-//string labels[] = {"program", "block", "vars", "expr", "A", "N", "M", "R", "stats", "mStat", "stat", "in", "out", "if", "loop", "assign", "RO"};
 
+//Node struct.
 struct Node_t {
 NodeLabel label;
 Token token;

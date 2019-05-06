@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<iostream>
+#include<iomanip>
 #include"testTree.h"
 
 string determineNodeLabel(NodeLabel label);
@@ -15,13 +16,35 @@ void printPreorder(struct Node_t* root, int level)
 	if(root != NULL)
 	{
 		label = determineNodeLabel(root->label);
-		cout << label << " \n";
+		
+		if (level) {
+                        std::cout << std::setw(level) << ' ';
+                }
+		cout<< label << " ";
+                cout << root->token.instance << " ";
+                cout << root->token2.instance << "\n";
+		if(root->left_child) printPreorder(root->left_child, level+4);
+        	if(root->right_child) printPreorder(root->right_child, level+4);
+        	//if (level) {
+            	//	std::cout << std::setw(level) << ' ';
+        	//}
+        	//cout<< label << "\n ";
+		//cout << root->token.instance;
+		//cout << root->token2.instance;		
+
+
+		/*printf("%*s%d:%-9s ",level*2,' ',level,label.c_str());
+		printf("\n");
+  		printPreorder(root->left_child,level+1);
+  		printPreorder(root->right_child,level+1);*/
+
+		/*cout << label << " \n";
 		cout << root->token.instance;
 		cout << root->token2.instance;
 		level++;
 		//printPreorder(root->token.instance, level);
 		printPreorder(root->left_child, level);
-		printPreorder(root->right_child, level);
+		printPreorder(root->right_child, level);*/
 	}
 }
 
