@@ -9,6 +9,7 @@ using namespace std;
 int i;
 Token token;
 
+//Parser function that calls the rest of the functions for each nonterminal.
 Node_t* parser(vector<Token> &tokens)
 {
 	//Function declarations.
@@ -26,7 +27,9 @@ Node_t* parser(vector<Token> &tokens)
 	}
 	else
 	{
-		error("Error: Expected EOF token.");
+		cout << token.lineNumber << ": ";
+		error("Error: Expected EOF token but received ");
+		cout << token.instance << endl;
 		return NULL;
 	}
 }
@@ -66,12 +69,18 @@ Node_t* vars(vector<Token> &tokens)
 			}
 			else
 			{
-				error("Error: Expected NUMBER token.");
+				cout << token.lineNumber << ": ";
+				error("Error: Expected NUMBER token but received ");
+				cout << token.instance << endl;
+				exit(1);
 			}
 		}
 		else
 		{
-			error("Error: Expected IDENTIFIER token.");
+			cout << token.lineNumber << ": ";
+			error("Error: Expected IDENTIFIER token but received ");
+			cout << token.instance << endl;
+			exit(1);
 		}
 	}
 	else //predicts empty
@@ -99,13 +108,19 @@ Node_t* block(vector<Token> &tokens)
 		}
 		else
 		{
-			error("Error: Expected END token.");
+			cout << token.lineNumber << ": ";
+			error("Error: Expected END token but received ");
+			cout << token.instance << endl;
+			exit(1);
 		}
 
 	}
 	else
 	{
-		error("Error: Expected BEGIN token.");
+		cout << token.lineNumber << ": ";
+		error("Error: Expected BEGIN token but received ");
+		cout << token.instance << endl;
+		exit(1);
 	}
 }
 
@@ -212,7 +227,9 @@ Node_t* R(vector<Token> &tokens)
 		else
 		{
 			cout << token.lineNumber << ": ";
-			error("Error: Expected CLOSE BRACKET token.");
+			error("Error: Expected CLOSE BRACKET token but received ");
+			cout << token.instance << endl;
+			exit(1);
 		}
 	}
 	else if(token.id == IDENT_tk)
@@ -232,7 +249,9 @@ Node_t* R(vector<Token> &tokens)
 	else
 	{
 		cout << token.lineNumber << ": ";
-		error("Error: Expected OPEN BRACKET, IDENTIFIER, or NUMBER token");
+		error("Error: Expected OPEN BRACKET, IDENTIFIER, or NUMBER token but received ");
+		cout << token.instance << endl;
+		exit(1);
 	}	
 }
 
@@ -251,7 +270,10 @@ Node_t* stats(vector<Token> &tokens)
 	}
 	else
 	{
-		error("Error: Expected COLON token.");
+		cout << token.lineNumber << ": ";
+		error("Error: Expected COLON token but received ");
+		cout << token.instance << endl;
+		exit(1);
 	}
 }
 
@@ -275,7 +297,10 @@ Node_t* mStat(vector<Token> &tokens)
         }
         else //process empty
         {
-		error("Error: Expected COLON token.");		
+		cout << token.lineNumber << ": ";
+		error("Error: Expected COLON token but received ");
+		cout << token.instance << endl;
+		exit(1);		
         }
 }
 
@@ -310,7 +335,10 @@ Node_t* stat(vector<Token> &tokens)
                         token = tokens[i];
                         return assign(tokens);
 		default:
-			error("Error: Expected READ, OUTPUT, BLOCK, IFF, LOOP, or IDENTIFIER token.");
+			cout << token.lineNumber << ": ";
+			error("Error: Expected READ, OUTPUT, BLOCK, IFF, LOOP, or IDENTIFIER token but received ");
+			cout << token.instance << endl;
+			exit(1);
 			break;
 	}
 }
@@ -338,18 +366,25 @@ Node_t* in(vector<Token> &tokens)
 				else
 				{
 					cout << token.lineNumber << ": ";
-					error("Error: Expected CLOSE BRACKET token.");
+					error("Error: Expected CLOSE BRACKET token but received ");
+					cout << token.instance << endl;
+					exit(1);
 				}
 			}
 			else
 			{
-				error("Error: Expected IDENTIFIER token.");
+				cout << token.lineNumber << ": ";
+				error("Error: Expected IDENTIFIER token but received ");
+				cout << token.instance << endl;
+				exit(1);
 			}
 		}
 		else
 		{
 			cout << token.lineNumber << ": ";
-			error("Error: Expected OPEN BRACKET token.");
+			error("Error: Expected OPEN BRACKET token but received ");
+			cout << token.instance << endl;
+			exit(1);
 		}
 }
 
@@ -372,13 +407,17 @@ Node_t* out(vector<Token> &tokens)
 		else
 		{
 			cout << token.lineNumber << ": ";
-			error("Error: Expected CLOSE BRACKET token.");
+			error("Error: Expected CLOSE BRACKET token but received ");
+			cout << token.instance << endl;
+			exit(1);
 		}
 	}
 	else
 	{
 		cout << token.lineNumber << ": ";
-		error("Error: Expected OPEN BRACKET token.");
+		error("Error: Expected OPEN BRACKET token but received ");
+		cout << token.instance << endl;
+		exit(1);
 	}	
 }
 
@@ -404,13 +443,17 @@ Node_t* if_tk(vector<Token> &tokens)
 		else
 		{
 			cout << token.lineNumber << ": ";
-			error("Error: Expected CLOSE BRACKET token.");
+			error("Error: Expected CLOSE BRACKET token but received ");
+			cout << token.instance << endl;
+			exit(1);
 		}
 	}
 	else
 	{
 		cout << token.lineNumber << ": ";
-		error("Error: Expected OPEN BRACKET token.");
+		error("Error: Expected OPEN BRACKET token but received ");
+		cout << token.instance << endl;
+		exit(1);
 	}
 }
 
@@ -437,13 +480,17 @@ Node_t* loop(vector<Token> &tokens)
 		else
 		{
 			cout << token.lineNumber;
-			error("Error: Expected CLOSE BRACKET token.");
+			error("Error: Expected CLOSE BRACKET token but received ");
+			cout << token.instance << endl;
+			exit(1);
 		}
 	}
 	else
 	{
 		cout << token.lineNumber;
-		error("Error: Expected OPEN BRACKET token.");
+		error("Error: Expected OPEN BRACKET token but received ");
+		cout << token.instance << endl;
+		exit(1);
 	}
 }
 
@@ -460,7 +507,10 @@ Node_t* assign(vector<Token> &tokens)
 	}
 	else 
 	{
-		error("Error: Expected EQUAL token.");
+		cout << token.lineNumber << ": ";
+		error("Error: Expected EQUAL token but received ");
+		cout << token.instance << endl;
+		exit(1);
 	}
 }
 
@@ -508,16 +558,21 @@ Node_t* RO(vector<Token> &tokens)
 	}
 	else
 	{
-		error("Error: Expected LESS THAN, EQUAL, or GREATER THAN token.");
+		cout << token.lineNumber << ": ";
+		error("Error: Expected LESS THAN, EQUAL, or GREATER THAN token but received ");
+		cout << token.instance << endl;
+		exit(1);
 	}
 }
 
+//Function that displays error messages.
 void error(string message)
 {
-	cout << message << endl;
-	exit(1);
+	cout << message;
+	//exit(1);
 }
 
+//Function that creates new node with provided label.
 Node_t* getNode(NodeLabel label)
 {
 	Node_t* temp = new Node_t;
