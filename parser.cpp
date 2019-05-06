@@ -9,7 +9,7 @@ using namespace std;
 int i;
 Token token;
 
-Node_t* parser(vector<Token> tokens)
+Node_t* parser(vector<Token> &tokens)
 {
 	//Function declarations.
 	Node_t* root;
@@ -31,7 +31,7 @@ Node_t* parser(vector<Token> tokens)
 	}
 }
 
-Node_t* program(vector<Token> tokens)
+Node_t* program(vector<Token> &tokens)
 {
 	Node_t* program_node = getNode(Program);
 
@@ -41,10 +41,9 @@ Node_t* program(vector<Token> tokens)
 	return program_node;
 }
 
-Node_t* vars(vector<Token> tokens)
+Node_t* vars(vector<Token> &tokens)
 {
 	Node_t* vars_node = getNode(Vars);
-	//cout << vars_node->label << endl;
 
 	if(token.id == INT_tk)
 	{
@@ -81,7 +80,7 @@ Node_t* vars(vector<Token> tokens)
 	}
 }
 
-Node_t* block(vector<Token> tokens)
+Node_t* block(vector<Token> &tokens)
 {
 	Node_t* block_node = getNode(Block);
 
@@ -110,7 +109,7 @@ Node_t* block(vector<Token> tokens)
 	}
 }
 
-Node_t* expr(vector<Token> tokens)
+Node_t* expr(vector<Token> &tokens)
 {
 	Node_t* expr_node = getNode(Expr);
 
@@ -137,7 +136,7 @@ Node_t* expr(vector<Token> tokens)
 	}
 }
 
-Node_t* A(vector<Token> tokens)
+Node_t* A(vector<Token> &tokens)
 {
 	Node_t* A_node = getNode(ALabel);
 
@@ -156,7 +155,7 @@ Node_t* A(vector<Token> tokens)
 	}
 }
 
-Node_t* N(vector<Token> tokens)
+Node_t* N(vector<Token> &tokens)
 {
 	Node_t* N_node = getNode(NLabel);
 
@@ -175,7 +174,7 @@ Node_t* N(vector<Token> tokens)
 	}
 }
 
-Node_t* M(vector<Token> tokens)
+Node_t* M(vector<Token> &tokens)
 {
 	Node_t* M_node = getNode(MLabel);
 
@@ -194,7 +193,7 @@ Node_t* M(vector<Token> tokens)
 	}
 }
 
-Node_t* R(vector<Token> tokens)
+Node_t* R(vector<Token> &tokens)
 {
 	Node_t* R_node = getNode(RLabel);
 
@@ -212,6 +211,7 @@ Node_t* R(vector<Token> tokens)
 		}
 		else
 		{
+			cout << token.lineNumber << ": ";
 			error("Error: Expected CLOSE BRACKET token.");
 		}
 	}
@@ -224,19 +224,19 @@ Node_t* R(vector<Token> tokens)
 	}
 	else if(token.id == NUM_tk)
 	{	
-		R_node->token2 = token;
+		R_node->token = token;
 		i++;
 		token = tokens[i];
 		return R_node;
 	}
 	else
 	{
-		cout << "*****" + token.lineNumber << ": ";
-		error("Error - Expected OPEN BRACKET, IDENTIFIER, or NUMBER token but recieved " + token.instance);
+		cout << token.lineNumber << ": ";
+		error("Error: Expected OPEN BRACKET, IDENTIFIER, or NUMBER token");
 	}	
 }
 
-Node_t* stats(vector<Token> tokens)
+Node_t* stats(vector<Token> &tokens)
 {
 	Node_t* stats_node = getNode(Stats);
 
@@ -255,7 +255,7 @@ Node_t* stats(vector<Token> tokens)
 	}
 }
 
-Node_t* mStat(vector<Token> tokens)
+Node_t* mStat(vector<Token> &tokens)
 {
 	if(token.id == END_tk)
 	{
@@ -279,7 +279,7 @@ Node_t* mStat(vector<Token> tokens)
         }
 }
 
-Node_t* stat(vector<Token> tokens)
+Node_t* stat(vector<Token> &tokens)
 {
 	Node_t* stat_node = getNode(Stat);
 
@@ -294,8 +294,8 @@ Node_t* stat(vector<Token> tokens)
                         token = tokens[i];
                         return out(tokens);
 		case BEGIN_tk:
-			i++;
-                        token = tokens[i];
+			//i++;
+                        //token = tokens[i];
                         return block(tokens);
 		case IFF_tk:
 			i++;
@@ -310,13 +310,12 @@ Node_t* stat(vector<Token> tokens)
                         token = tokens[i];
                         return assign(tokens);
 		default:
-			cout << token.lineNumber << endl;
-			error("Error: Expected READ, OUTPUT, BLOCK, IFF, LOOP, or IDENTIFIER token." + token.instance);
-			return NULL;
+			error("Error: Expected READ, OUTPUT, BLOCK, IFF, LOOP, or IDENTIFIER token.");
+			break;
 	}
 }
 
-Node_t* in(vector<Token> tokens)
+Node_t* in(vector<Token> &tokens)
 {
 	Node_t* in_node = getNode(In);
 
@@ -338,6 +337,7 @@ Node_t* in(vector<Token> tokens)
 				}
 				else
 				{
+					cout << token.lineNumber << ": ";
 					error("Error: Expected CLOSE BRACKET token.");
 				}
 			}
@@ -348,11 +348,12 @@ Node_t* in(vector<Token> tokens)
 		}
 		else
 		{
+			cout << token.lineNumber << ": ";
 			error("Error: Expected OPEN BRACKET token.");
 		}
 }
 
-Node_t* out(vector<Token> tokens)
+Node_t* out(vector<Token> &tokens)
 {
 	Node_t* out_node = getNode(Out);
 
@@ -370,16 +371,18 @@ Node_t* out(vector<Token> tokens)
 		}
 		else
 		{
+			cout << token.lineNumber << ": ";
 			error("Error: Expected CLOSE BRACKET token.");
 		}
 	}
 	else
 	{
+		cout << token.lineNumber << ": ";
 		error("Error: Expected OPEN BRACKET token.");
 	}	
 }
 
-Node_t* if_tk(vector<Token> tokens)
+Node_t* if_tk(vector<Token> &tokens)
 {
 	Node_t* iff_node = getNode(If);
 
@@ -387,60 +390,64 @@ Node_t* if_tk(vector<Token> tokens)
 	{
 		i++;
 		token = tokens[i];
-		//cout << "if_tk: " << token.instance;
 		iff_node->left_child = expr(tokens);
-		RO(tokens);
+		iff_node->ro_child = RO(tokens);
 		iff_node->right_child = expr(tokens);
 		
 		if(token.id == CLOSE_BRACKET_tk)
 		{
 			i++;
 			token = tokens[i];
-			stat(tokens);
+			iff_node->stat_child = stat(tokens);
 			return iff_node;
 		}
 		else
 		{
+			cout << token.lineNumber << ": ";
 			error("Error: Expected CLOSE BRACKET token.");
 		}
 	}
 	else
 	{
+		cout << token.lineNumber << ": ";
 		error("Error: Expected OPEN BRACKET token.");
 	}
 }
 
-Node_t* loop(vector<Token> tokens)
+Node_t* loop(vector<Token> &tokens)
 {
 	Node_t* loop_node = getNode(Loop);
 
 	if(token.id == OPEN_BRACKET_tk)
 	{
+		//expr(tokens);
 		i++;
 		token = tokens[i];
 		loop_node->left_child = expr(tokens);
-		RO(tokens);
+		loop_node->ro_child = RO(tokens);
 		loop_node->right_child = expr(tokens);
 
 		if(token.id == CLOSE_BRACKET_tk)
 		{
 			i++;
 			token = tokens[i];
-			stat(tokens);
+			loop_node->stat_child = stat(tokens);
 			return loop_node;
 		}
 		else
 		{
+			cout << token.lineNumber;
 			error("Error: Expected CLOSE BRACKET token.");
 		}
 	}
 	else
 	{
+		cout << token.lineNumber;
 		error("Error: Expected OPEN BRACKET token.");
 	}
 }
 
-Node_t* assign(vector<Token> tokens)
+Node_t* assign(vector<Token> &tokens)
 {
 	Node_t* assign_node = getNode(Assign);
 
@@ -457,12 +464,14 @@ Node_t* assign(vector<Token> tokens)
 	}
 }
 
-Node_t* RO(vector<Token> tokens)
+Node_t* RO(vector<Token> &tokens)
 {
 	Node_t* RO_node = getNode(ROLabel);
 
 	if(token.id == LESS_tk)
 	{
+		i++;
+		token = tokens[i];
 		return RO_node;
 	}
 	else if(token.id == EQUAL_tk)
@@ -488,7 +497,7 @@ Node_t* RO(vector<Token> tokens)
 			token = tokens[i];
 			return RO_node;
 		}
-		
+
 		return RO_node;
 	}
 	else if(token.id == GREATER_tk)
@@ -518,76 +527,9 @@ Node_t* getNode(NodeLabel label)
 	temp->token2.instance = "";
 	temp->left_child = NULL;
 	temp->right_child = NULL;
+	temp->ro_child = NULL;
+	temp->stat_child = NULL;
 
 	return temp;
 }
 
-/*Description: Function takes in file pointer and processes the files content - separating each word.
- *Parameters: File pointer.
- *Return: A node_t struct.
- ************************************************/
-/*struct Node_t* buildTree(FILE *fp)
-{
-	//Variable declarations.
-	char c;
-	string word;
-	struct node_t* root = NULL;
-
-	//Processes files content.
-	while((c = fgetc(fp)) != EOF)
-       	{
-		if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		{
-			word += c;
-		}
-		else
-		{
-			root = insert(root, word);
-			word = "";
-		}
-     	}
-
-	return root;
-}*/
-
-/*Desciption: Function takes in a string and uses it to create a temporary and sets the data with the string.
- *Parameters: A string.
- *Return: A node_t struct.
- *************************************************/
-/*struct Node_t* newNode(NodeLabel label)
-{
-	//Creating a temporary node.
-	Node_t* temp = new Node_t;
-
-	//Setting the value of the node with the string.
-	temp->label = label;
-	temp->left_child = NULL;
-	temp->right_child = NULL;
-
-	return temp;
-}*/
-
-/*Description: This function inserts nodes into the tree that was built.
- *Parameters: A node_t struct and string.
- *Return: A node_t struct.
- *****************************************************/
-/*struct Node_t* insert(struct Node_t* node, NodeLabel label)
-{
-	//Checks if node is empty.
-	if(node == NULL) 
-	{
-		return newNode(label);
-	}
-
-	//Conditionals to decide where the node should be placed - left or right.
-	if(label < node->label)
-	{
-		node->left_child = insert(node->left_child, label);
-	}
-	else if(label > node->label)
-	{
-		node->right_child = insert(node->right_child, label);
-	}
-
-	return node;
-}*/
