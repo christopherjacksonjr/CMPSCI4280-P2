@@ -520,29 +520,34 @@ Node_t* RO(vector<Token> &tokens)
 
 	if(token.id == LESS_tk)
 	{
+		RO_node->token = token;
 		i++;
 		token = tokens[i];
 		return RO_node;
 	}
 	else if(token.id == EQUAL_tk)
 	{
+		RO_node->token = token;
 		i++;
 		token = tokens[i];
 
 		if(token.id == LESS_tk)
 		{
+			RO_node->token = token;
 			i++;
 			token = tokens[i];
 			return RO_node;
 		}
 		else if(token.id == GREATER_tk)
 		{
+			RO_node->token = token;
 			i++;
 			token = tokens[i];
 			return RO_node;
 		}
 		else if(token.id == EQUAL_tk)
 		{
+			RO_node->token = token;
 			i++;
 			token = tokens[i];
 			return RO_node;
@@ -552,6 +557,7 @@ Node_t* RO(vector<Token> &tokens)
 	}
 	else if(token.id == GREATER_tk)
 	{
+		RO_node->token = token;
 		i++;
 		token = tokens[i];
 		return RO_node;
